@@ -45,6 +45,5 @@ public class PegCode {
 		for(int i = 0; i < length; i++){ 
 			System.out.print(pegs[i].color);
 		} 
-		System.out.print("\n");
 	}
 }

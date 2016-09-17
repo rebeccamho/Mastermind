@@ -23,13 +23,16 @@ public class Game {
 	  * This constructor populates the secretCode attribute of the Game object. It
 	  * also begins the game by calling getGuess.
 	  */
-	Game(Scanner keyboard) {
+	Game(boolean testMode) {
 		secretCode = new PegCode(); // will give Game object a secret code
-		System.out.println("\nGenerating secret code ....");
-		for(int i = 0; i < GameConfiguration.pegNumber; i++){ // print secretCode
-			System.out.print(secretCode.pegs[i].color);
-		} 
-		getGuess(keyboard);
+		System.out.print("\nGenerating secret code ....");
+		if(testMode) {
+			System.out.print(" (for this example the secret code is \n");
+			secretCode.print();
+			System.out.print(")\n");
+		} else {
+			System.out.print("\n");
+		}
 	}
 	
 	/**
@@ -38,7 +41,7 @@ public class Game {
 	  * in history.
 	  * @param keyboard is the Scanner object instantiated in Driver.java.
 	  */
-	private void getGuess(Scanner keyboard) {
+	public void runGame(Scanner keyboard) {
 		while(guessesLeft > 0) { // continues until out of guesses or player wins
 			System.out.print("\nYou have " + guessesLeft + " guesses left.\nWhat is your "
 					+ "next guess?\nType in the characters for your guess and press enter.\n"
@@ -46,7 +49,7 @@ public class Game {
 			String input = keyboard.nextLine(); // String object of player's guess
 			
 			while(!checkValidity(input)) { // while guess is not valid, ask for new guess
-				System.out.print("\n\nWhat is your next guess?\nType in the characters for"
+				System.out.print("\nWhat is your next guess?\nType in the characters for"
 						+ " your guess and press enter.\nEnter guess: ");
 				input = keyboard.nextLine();
 			}
@@ -59,20 +62,21 @@ public class Game {
 			}
 			else { // did not guess correctly, game continues
 				int whitePegCount = checkWhitePegs(guess);
-				printPegCounts(blackPegCount, whitePegCount);
-				addToHistory(input, blackPegCount, whitePegCount);
-
-						
-				for(int i = 0; i < GameConfiguration.pegNumber; i++) { // reset Peg.generatedPeg
-					secretCode.pegs[i].reset();
-				}
 				
+				System.out.print(" -> Result:  ");
+				if(guessesLeft == 1) {
+					System.out.print("(Sorry, you are out of guesses. You lose, boo-hoo.)\n");
+				} else {
+					printPegCounts(blackPegCount, whitePegCount);
+					addToHistory(input, blackPegCount, whitePegCount);
+			
+					for(int i = 0; i < GameConfiguration.pegNumber; i++) { // reset Peg.generatedPeg
+						secretCode.pegs[i].reset();
+					}
+				}
 				guessesLeft -= 1;
 				numTurns += 1;
 				
-				if(guessesLeft == 0) {
-					System.out.print("(Sorry, you are out of guesses. You lose, boo-hoo.)\n");
-				}
 			}
 		}
 	}
@@ -90,10 +94,13 @@ public class Game {
 			return false;
 		}
 		
+		if(input.equals("")) { // if no text/spaces, need 4 blank spaces in front of arrow
+			System.out.print("    ");
+		}
 		System.out.print(input);
 
 		if(input.length() != GameConfiguration.pegNumber) { // input is improper length
-			System.out.print("  -> INVALID GUESS\n");
+			System.out.print(" -> INVALID GUESS\n");
 			return false; 
 		}
 		for(int i = 0; i < GameConfiguration.pegNumber; i++) { // iterate through each peg in the input
@@ -106,7 +113,7 @@ public class Game {
 				}
 			}
 			if(!isEqual) { // peg in the guess did not match a color
-				System.out.print("  -> INVALID GUESS\n");
+				System.out.print(" -> INVALID GUESS\n");
 				return false;
 			}
 		}
@@ -165,34 +172,27 @@ public class Game {
 	  * @param white is the number of white pegs generated.
 	  */
 	private void printPegCounts(int black, int white) {
-		System.out.print(" -> Result: ");
 		if(black == 0 && white == 0) { // no pegs
-			System.out.print("No pegs");
-		} else if(black == 0 && white == 1) { // 1 white peg
-			System.out.print(" " + white + " white peg");
-			
-		} else if(black == 1 && white == 0) { // 1 black peg
-			System.out.print(" " + black + " black peg");
-			
-		} else if(white > 1 && black == 0) { // multiple white pegs
-			System.out.print(" " + white + " white pegs");
-			
-		} else if(white == 0 && black > 1) { // multiple black pegs
-			System.out.print(" " + black + " black pegs");
-
-		} else if(white == 1 && black == 1) { // 1 white, 1 black
-			System.out.print(" " + black + " black peg, " + white
-					+ " white peg");
-		} else if(white == 1 && black > 1) { // 1 white, multiple black
-			System.out.print(" " + black + " black pegs, " + white
-					+ " white peg");
-		} else if(white > 1 && black == 1) { // multiple white, 1 black
-			System.out.print(" " + black + " black peg, " + white
-					+ " white pegs");
-		} else { // multiple of both pegs
-			System.out.print(" " + black + " black pegs, " + white
-					+ " white pegs");
+			System.out.print("No pegs\n");
+			return;
 		}
+		
+		if(black > 0) { // print black peg number
+			System.out.print(black + " black peg");
+			if(black > 1) {
+				System.out.print("s");
+			}
+			if(white != 0) {
+				System.out.print(", ");
+			}
+		}
+		if(white > 0) { // print white peg number
+			System.out.print(white + " white peg");
+			if(white > 1) {
+				System.out.print("s");
+			}
+		}
+		
 		System.out.print("\n");
 	}
 
@@ -211,11 +211,11 @@ public class Game {
 	  */
 	private void outputHistory() {
 		if(numTurns == 0) {
-			return; // ??
+			return; // print nothing
 		} else {
 			for(int i = 0; i < numTurns; i++) {
 				System.out.print(history[i].guess + "		" + history[i].blackPegCount +
-						"B_" + history[i].whitePegCount + "W");
+						"B_" + history[i].whitePegCount + "W\n");
 			}
 		}
 	}

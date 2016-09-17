@@ -17,6 +17,16 @@ public class Driver {
 
 	// NEED TO ADD: testing mode
 	public static void main(String [] args) { 
+		boolean testMode = false;
+		
+		if(args.length > 0){
+			System.out.println("here");
+			if(args[0].equals("1")){
+				testMode = true;
+			}
+		}
+		
+		
 		System.out.print("Welcome to Mastermind.  Here are the rules.\n\nThis is a text version of the "
 				+ "classic board game Mastermind.The computer will think of a secret code. The code "
 				+ "consists of 4 colored pegs.\nThe pegs MUST be one of six colors: blue, green, "
@@ -35,8 +45,9 @@ public class Driver {
 		String guess = keyboard.nextLine();		
 		
 		while(guess.equals("Y")){
-			Game mastermind = new Game(keyboard);
-
+			Game mastermind = new Game(testMode);
+			mastermind.runGame(keyboard);
+			
 			System.out.print("\nAre you ready for another game? (Y/N): ");
 			guess = keyboard.nextLine();
 		}
