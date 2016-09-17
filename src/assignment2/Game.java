@@ -99,7 +99,7 @@ public class Game {
 		for(int i = 0; i < GameConfiguration.pegNumber; i++) { // iterate through each peg in the input
 			boolean isEqual = false;
 			String inputColor = Character.toString(input.charAt(i));
-			for(int j = 0; j < GameConfiguration.numColors; j++) { // iterate through each color
+			for(int j = 0; j < GameConfiguration.colors.length; j++) { // iterate through each color
 				if (inputColor.equals(GameConfiguration.colors[j])) { // peg matches a color
 					isEqual = true;
 					break; // break if there is a match
