@@ -39,7 +39,7 @@ public class Game {
 	  * This method receives the player's guesses from the keyboard and calls functions to check
 	  * the validity of those guesses, check how many pegs the guess generated, and store the guess
 	  * in history.
-	  * @param keyboard is the Scanner object instantiated in Driver.java.
+	  * @param keyboard is a Scanner object that can take input from a keyboard.
 	  */
 	public void runGame(Scanner keyboard) {
 		while(guessesLeft > 0) { // continues until out of guesses or player wins
@@ -155,7 +155,7 @@ public class Game {
 			
 			if(!guess.pegs[i].generatedPeg){ // guess peg has not already generated a peg
 				for(int j = 0; j < GameConfiguration.pegNumber; j++) { // iterate through all secretCode pegs
-					if(guessColor.equals(secretCode.pegs[j].color) && !secretCode.pegs[j].generatedPeg) { // colors match and secretCode peg has not yet generated a black peg
+					if(guessColor.equals(secretCode.pegs[j].color) && !secretCode.pegs[j].generatedPeg) { // colors match and secretCode peg has not yet generated a peg
 						secretCode.pegs[j].markAsUsed();
 						whitePegCount++;
 						break;
@@ -167,7 +167,7 @@ public class Game {
 	}
 	
 	/**
-	  * This method prints the number of black and white pegs generated.
+	  * This method prints the number of black and white pegs generated from a player's guess.
 	  * @param black is the number of black pegs generated.
 	  * @param white is the number of white pegs generated.
 	  */
@@ -211,7 +211,7 @@ public class Game {
 	  */
 	private void outputHistory() {
 		if(numTurns == 0) {
-			return; // print nothing
+			return; // print nothing if the player has not made any valid guesses
 		} else {
 			for(int i = 0; i < numTurns; i++) {
 				System.out.print(history[i].guess + "		" + history[i].blackPegCount +

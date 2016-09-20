@@ -9,19 +9,15 @@
 
 package assignment2;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.util.*;
 
 public class Driver {
 
-	// NEED TO ADD: testing mode
 	public static void main(String [] args) { 
 		boolean testMode = false;
 		
 		if(args.length > 0){
-			System.out.println("here");
-			if(args[0].equals("1")){
+			if(args[0].equals("1")){ // test mode enabled
 				testMode = true;
 			}
 		}
@@ -35,7 +31,7 @@ public class Driver {
 				+ "After you make a valid guess the result (feedback) will be displayed.\nThe result "
 				+ "consists of a black peg for each peg you have guessed exactly correct (color "
 				+ "and position) in your guess.  For each peg in the guess that is the correct "
-				+ "color, but is out of position, you geta white peg.  For each peg that is fully "
+				+ "color, but is out of position, you get a white peg.  For each peg that is fully "
 				+ "incorrect, you get no feedback.\nOnly the first letter of the color is displayed."
 				+ " B for Blue, R for Red, and so forth.\nWhen entering guesses you only need to enter "
 				+ "the first character of each color as a capital letter.\n\nYou have 12 guesses to "
@@ -44,7 +40,7 @@ public class Driver {
 		Scanner keyboard = new Scanner(System.in);
 		String guess = keyboard.nextLine();		
 		
-		while(guess.equals("Y")){
+		while(guess.equals("Y")){ // continue game if player enters "Y"
 			Game mastermind = new Game(testMode);
 			mastermind.runGame(keyboard);
 			
@@ -52,12 +48,7 @@ public class Driver {
 			guess = keyboard.nextLine();
 		}
 		
-		
-		
-		
 
-		//System.out.println(guess);
-//		keyboard.close();
 	}
 	
 }

@@ -11,7 +11,7 @@ package assignment2;
 
 public class Peg {
 	public String color;
-	boolean generatedPeg = false; // true if peg has generated a black or white peg
+	public boolean generatedPeg = false; // true if peg has generated a black or white peg
 	
 	/**
 	  * This constructor sets the object's color to the input String.
@@ -21,11 +21,17 @@ public class Peg {
 		this.color = color;
 	}
 	
-	void markAsUsed() {
+	/**
+	  * This method sets generatedPeg to true.
+	  */
+	public void markAsUsed() {
 		generatedPeg = true;
 	}
 	
-	void reset() {
+	/**
+	  * This method sets generatedPeg to false. The color attribute remains the same.
+	  */
+	public void reset() {
 		generatedPeg = false;
 	}
 }

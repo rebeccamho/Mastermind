@@ -39,7 +39,7 @@ public class PegCode {
 	}
 	
 	/**
-	  * This method prints the colors of the pegs that comprise the PegCode.
+	  * This method prints to the console the colors of the pegs that comprise the PegCode.
 	  */
 	public void print() {
 		for(int i = 0; i < length; i++){ 
