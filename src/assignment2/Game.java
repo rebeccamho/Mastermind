@@ -47,6 +47,7 @@ public class Game {
 					+ "next guess?\nType in the characters for your guess and press enter.\n"
 					+ "Enter guess: ");
 			String input = keyboard.nextLine(); // String object of player's guess
+			input = input.trim(); // trim input for trailing/leading whitespaces
 			
 			while(!checkValidity(input)) { // while guess is not valid, ask for new guess
 				System.out.print("\nWhat is your next guess?\nType in the characters for"
